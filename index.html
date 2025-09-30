@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息技术课学生积分系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>学生积分系统</h1>
+            </div>
+
+            <div class="class-selector">
+                <i class="fas fa-users"></i>
+                <select id="classSelect">
+                    <!-- 班级选项将通过JavaScript动态生成 -->
+                </select>
+                <button class="btn btn-outline" id="manageClassesBtn">
+                    <i class="fas fa-cog"></i>
+                    <span>管理班级</span>
+                </button>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="addPointsBtn">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>个人加分</span>
+                </button>
+                <button class="btn btn-secondary" id="subtractPointsBtn">
+                    <i class="fas fa-minus-circle"></i>
+                    <span>个人减分</span>
+                </button>
+                <button class="btn btn-accent" id="classSubtractBtn">
+                    <i class="fas fa-minus-square"></i>
+                    <span>全班减分</span>
+                </button>
+                <button class="btn btn-warning" id="randomPickBtn">
+                    <i class="fas fa-random"></i>
+                    <span>随机点名</span>
+                </button>
+                <button class="btn btn-info" id="timerBtn">
+                    <i class="fas fa-clock"></i>
+                    <span>课堂计时器</span>
+                </button>
+                <button class="btn btn-outline" id="importBtn">
+                    <i class="fas fa-file-import"></i>
+                    <span>导入学生</span>
+                </button>
+                <button class="btn btn-outline" id="exportBtn">
+                    <i class="fas fa-file-export"></i>
+                    <span>导出数据</span>
+                </button>
+                <button class="btn btn-success" id="restoreBtn">
+                    <i class="fas fa-upload"></i>
+                    <span>恢复数据</span>
+                </button>
+                <button class="btn btn-danger" id="deleteClassBtn">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>删除全班</span>
+                </button>
+                <button class="btn btn-secondary" id="resetBtn">
+                    <i class="fas fa-undo"></i>
+                    <span>数据清零</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="student-list">
+                <div class="list-header">
+                    <h2>学生列表</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="搜索学生..." id="searchInput">
+                    </div>
+                </div>
+
+                <div class="bulk-actions" id="bulkActions" style="display: none;">
+                    <button class="btn btn-danger" id="deleteSelectedBtn">
+                        <i class="fas fa-trash"></i>
+                        <span>删除选中学生</span>
+                    </button>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell">
+                                <input type="checkbox" id="selectAllCheckbox">
+                            </th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>积分</th>
+                            <th>金币</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <!-- 学生数据将通过JavaScript动态生成 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="ranking-panel">
+                <div class="panel-header">
+                    <h2>积分排名</h2>
+                </div>
+
+                <div class="ranking-tabs">
+                    <button class="ranking-tab active" id="individualRankingTab">个人排名</button>
+                    <button class="ranking-tab" id="groupRankingTab">小组排名</button>
+                </div>
+
+                <div class="ranking-list active" id="individualRankingList">
+                    <!-- 个人排名数据将通过JavaScript动态生成 -->
+                </div>
+
+                <div class="ranking-list" id="groupRankingList" style="display: none;">
+                    <!-- 小组排名数据将通过JavaScript动态生成 -->
+                </div>
+
+                <div class="panel-footer">
+                    <div class="class-info">
+                        当前班级: <span id="currentClassLabel">未选择班级</span>
+                    </div>
+                    <div class="student-count">
+                        学生总数: <span id="studentCount">0</span>
+                    </div>
+                </div>
+                <div class="group-explanation">
+                    <div class="group-explanation-title">小组划分说明</div>
+                    <div class="group-explanation-content">
+                        <div class="group-item">第一小组: 1~10号</div>
+                        <div class="group-item">第二小组: 11~20号</div>
+                        <div class="group-item">第三小组: 21~30号</div>
+                        <div class="group-item">第四小组: 31~40号</div>
+                        <div class="group-item">第五小组: 41~50号</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 积分操作模态框 -->
+    <div class="modal" id="pointsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="pointsModalTitle">个人加分</h2>
+                <button class="close-btn" id="closePointsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="studentSelectGroup">
+                    <label for="studentSelect">选择学生</label>
+                    <select id="studentSelect">
+                        <!-- 学生选项将通过JavaScript动态生成 -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>选择原因</label>
+                    <div class="reason-buttons" id="reasonButtons">
+                        <!-- 原因按钮将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirmPoints">确认</button>
+                <button class="btn btn-secondary" id="cancelPoints">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 学生详情模态框 -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="studentModalTitle">学生详情</h2>
+                <button class="close-btn" id="closeStudentModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="studentName">姓名</label>
+                    <input type="text" id="studentName" placeholder="输入学生姓名">
+                </div>
+
+                <div class="form-group">
+                    <label>积分: <span id="modalPoints">0</span></label>
+                    <label>金币: <span id="modalCoins">0</span></label>
+                </div>
+
+                <div class="form-group">
+                    <label>兑换金币</label>
+                    <div class="exchange-buttons">
+                        <button class="exchange-btn" data-amount="5">兑换一颗糖(5)</button>
+                        <button class="exchange-btn" data-amount="5">兑换一包零食(5)</button>
+                        <button class="exchange-btn" data-amount="5">兑换悠哈抹茶糖(5)</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="saveStudent">保存</button>
+                <button class="btn btn-secondary" id="deleteStudent">删除</button>
+                <button class="btn btn-accent" id="cancelStudent">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导入学生模态框 -->
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>导入学生数据</h2>
+                <button class="close-btn" id="closeImportModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="file-upload" id="fileUploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>点击或拖拽Excel文件到这里</p>
+                    <input type="file" id="fileInput" accept=".xlsx, .xls">
+                </div>
+                <div class="form-group">
+                    <label>Excel格式要求:</label>
+                    <p style="font-size: 14px; color: #666;">第一列：学号(最多两位数) 第二列: 学生姓名, 第三列: 初始积分(可选), 第四列: 初始金币(可选)</p>
+                </div>
+                <div id="importPreview" class="import-preview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirmImport" disabled>确认导入</button>
+                <button class="btn btn-secondary" id="cancelImport">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 随机点名模态框 -->
+    <div class="modal" id="randomPickModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>随机点名</h2>
+                <button class="close-btn" id="closeRandomModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="random-pick-container">
+                    <div id="randomStudentDisplay" class="random-student-display">
+                        点击开始按钮开始随机点名
+                    </div>
+                    <div class="random-controls">
+                        <button class="btn btn-primary" id="startRandomBtn">
+                            <i class="fas fa-play"></i>
+                            <span>开始随机</span>
+                        </button>
+                        <button class="btn btn-secondary" id="stopRandomBtn" disabled>
+                            <i class="fas fa-stop"></i>
+                            <span>停止</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-accent" id="closeRandomBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 计时器模态框 -->
+    <div class="modal" id="timerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>课堂计时器</h2>
+                <button class="close-btn" id="closeTimerModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="timer-container">
+                    <div class="timer-inputs">
+                        <div class="timer-input">
+                            <label>分钟</label>
+                            <input type="number" id="timerMinutes" min="0" max="60" value="5">
+                        </div>
+                        <div class="timer-input">
+                            <label>秒钟</label>
+                            <input type="number" id="timerSeconds" min="0" max="59" value="0">
+                        </div>
+                    </div>
+
+                    <div class="timer-display" id="timerDisplay">
+                        05:00
+                    </div>
+
+                    <div class="timer-controls">
+                        <button class="btn btn-primary" id="startTimerBtn">
+                            <i class="fas fa-play"></i>
+                            <span>开始</span>
+                        </button>
+                        <button class="btn btn-secondary" id="pauseTimerBtn" disabled>
+                            <i class="fas fa-pause"></i>
+                            <span>暂停</span>
+                        </button>
+                        <button class="btn btn-accent" id="resetTimerBtn">
+                            <i class="fas fa-redo"></i>
+                            <span>重置</span>
+                        </button>
+                    </div>
+
+                    <div class="timer-presets">
+                        <div class="timer-preset-btn" data-minutes="1" data-seconds="0">1分钟</div>
+                        <div class="timer-preset-btn" data-minutes="3" data-seconds="0">3分钟</div>
+                        <div class="timer-preset-btn" data-minutes="5" data-seconds="0">5分钟</div>
+                        <div class="timer-preset-btn" data-minutes="10" data-seconds="0">10分钟</div>
+                        <div class="timer-preset-btn" data-minutes="15" data-seconds="0">15分钟</div>
+                        <div class="timer-preset-btn" data-minutes="30" data-seconds="0">30分钟</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-accent" id="closeTimerBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据备份与恢复模态框 -->
+    <div class="modal" id="backupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>数据备份与恢复</h2>
+                <button class="close-btn" id="closeBackupModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="backup-info">
+                    <p><strong>备份数据</strong>：将当前所有班级的学生数据导出为JSON文件，用于在其他设备上恢复。</p>
+                    <p><strong>恢复数据</strong>：从JSON文件导入数据，将覆盖当前所有数据。</p>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success" id="exportBackupBtn" style="width: 100%; margin-bottom: 15px;">
+                        <i class="fas fa-download"></i>
+                        <span>导出备份文件</span>
+                    </button>
+
+                    <div class="file-upload" id="backupUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>点击或拖拽备份文件到这里</p>
+                        <input type="file" id="backupFileInput" accept=".json">
+                    </div>
+                </div>
+
+                <div id="backupPreview" class="import-preview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="confirmRestore" disabled>确认恢复</button>
+                <button class="btn btn-secondary" id="cancelBackup">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 班级管理模态框 -->
+    <div class="class-manager" id="classManager">
+        <div class="class-manager-content">
+            <div class="modal-header">
+                <h2>班级管理</h2>
+                <button class="close-btn" id="closeClassManager">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="class-list" id="classList">
+                    <!-- 班级列表将通过JavaScript动态生成 -->
+                </div>
+                <div class="add-class-form">
+                    <input type="text" id="newClassName" placeholder="输入新班级名称">
+                    <button class="btn btn-primary" id="addClassBtn">添加班级</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-accent" id="closeClassManagerBtn">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知 -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">操作成功</span>
+    </div>
+
+    <script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>
