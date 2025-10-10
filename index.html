@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小学信息科技课学生积分系统</title>
+    <title>小学信息技术课学生积分系统</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -23,13 +23,11 @@
                 </button>
                 <div class="help-tooltip">
                     <!-- 这里填写帮助文字，可以使用多段 -->
-                    <p>出于费用和安全性的考虑;</p>
                     <p>本网站的所有数据均存储在浏览器中，更换浏览器或设备，原有数据无法保留;</p>
                     <p>如果需要保留数据，可以点击<i style="color: #06D6A8;">“恢复数据”--“导出备份文件”</i>，导出JSON文件(建议保存到WPS云文档，方便管理);</p>
                     <p>在新的浏览器或设备中，打开网页，点击<i style="color: #06D6A8;">"恢复数据"</i>，导入JSON文件，还原数据.</p>
                 </div>
             </div>
-
             <div class="class-selector">
                 <i class="fas fa-users"></i>
                 <select id="classSelect">
@@ -139,6 +137,7 @@
                     <!-- 小组排名数据将通过JavaScript动态生成 -->
                 </div>
 
+                <!-- 在积分排名面板的底部添加小组划分按钮 -->
                 <div class="panel-footer">
                     <div class="class-info">
                         当前班级: <span id="currentClassLabel">未选择班级</span>
@@ -146,17 +145,54 @@
                     <div class="student-count">
                         学生总数: <span id="studentCount">0</span>
                     </div>
+
                 </div>
-                <div class="group-explanation">
-                    <div class="group-explanation-title">小组划分说明</div>
-                    <div class="group-explanation-content">
-                        <div class="group-item">第一小组: 1~10号</div>
-                        <div class="group-item">第二小组: 11~20号</div>
-                        <div class="group-item">第三小组: 21~30号</div>
-                        <div class="group-item">第四小组: 31~40号</div>
-                        <div class="group-item">第五小组: 41~50号</div>
+                <div class="grouping-section">
+                    <div class="grouping-controls">
+                        <button class="btn btn-accent grouping-btn" id="groupingBtn">
+                            <i class="fas fa-object-group"></i>
+                            <span>小组划分</span>
+                        </button>
+                        <div class="grouping-info-card" id="groupingInfoCard">
+                            <div class="info-header">
+                                <i class="fas fa-users"></i>
+                                <span>当前分组</span>
+                            </div>
+                            <div class="info-content" id="groupingInfo">
+                                默认分组
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- 小组划分模态框 -->
+                <div class="modal" id="groupingModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>小组划分</h2>
+                            <button class="close-btn" id="closeGroupingModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="group-selection">
+                                <h3>选择小组</h3>
+                                <div class="group-buttons" id="groupButtons">
+                                    <!-- 小组按钮将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            <div class="student-matrix">
+                                <h3>学生矩阵 (10×5)</h3>
+                                <div class="matrix-container" id="matrixContainer">
+                                    <!-- 学生矩阵将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" id="saveGrouping">保存分组</button>
+                            <button class="btn btn-secondary" id="cancelGrouping">取消</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -240,8 +276,7 @@
                 </div>
                 <div class="form-group">
                     <label>Excel格式要求:</label>
-                    <p style="font-size: 14px; color: #666;">第一列：学号(最多两位数) 第二列: 学生姓名, 第三列: 初始积分(可选), 第四列: 初始金币(可选)</p>
-                    <img src="images/example.jpg" alt="示例">
+                    <p style="font-size: 14px; color: #666;">第一列: 学生姓名, 第二列: 初始积分(可选), 第三列: 初始金币(可选)</p>
                 </div>
                 <div id="importPreview" class="import-preview"></div>
             </div>
@@ -400,7 +435,8 @@
         <span id="notificationText">操作成功</span>
     </div>
 
-    <script type="text/javascript" src="script.js"></script>
+    <script src="script.js"></script>
+    <script src="group.js"></script>
 </body>
 
 </html>
