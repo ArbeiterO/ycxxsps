@@ -1213,3 +1213,158 @@ tbody tr:hover {
         grid-template-columns: repeat(5, 1fr);
     }
 }
+/* 学生网格样式 */
+.student-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.student-grid-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.student-grid-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-color: var(--primary);
+}
+
+.student-grid-num {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.student-grid-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.student-grid-points {
+    font-size: 12px;
+    color: var(--primary);
+    margin-bottom: 3px;
+}
+
+.student-grid-coins {
+    font-size: 12px;
+    color: #FFA500;
+}
+/* 全屏学生网格样式 */
+.student-grid-container-full {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.student-grid-card-full {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.student-grid-card-full:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    border-color: var(--primary);
+    z-index: 1;
+}
+
+.student-grid-num-full {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 19px;
+    margin-bottom: 4px;
+}
+
+.student-grid-name-full {
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.student-grid-points-full {
+    font-size: 17px;
+    color: var(--primary);
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+
+.student-grid-coins-full {
+    font-size: 17px;
+    color: #FFA500;
+    font-weight: bold;
+}
+
+/* 响应式调整 */
+@media (max-width: 1400px) {
+    .student-grid-num-full {
+        font-size: 15px;
+    }
+    
+    .student-grid-name-full {
+        font-size: 13px;
+    }
+    
+    .student-grid-points-full,
+    .student-grid-coins-full {
+        font-size: 12px;
+    }
+}
+
+@media (max-height: 800px) {
+    .student-grid-container-full {
+        gap: 6px;
+        padding: 8px;
+    }
+    
+    .student-grid-card-full {
+        padding: 8px;
+    }
+    
+    .student-grid-num-full {
+        font-size: 14px;
+    }
+    
+    .student-grid-name-full {
+        font-size: 12px;
+    }
+    
+    .student-grid-points-full,
+    .student-grid-coins-full {
+        font-size: 11px;
+    }
+}

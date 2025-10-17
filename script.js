@@ -474,6 +474,21 @@ function init() {
     document.getElementById('confirmImport').addEventListener('click', function () {
         importStudents();
     });
+    document.getElementById('studentMatrixBtn').addEventListener('click', function () {
+        if (!currentClassId) {
+            showNotification('请先选择班级', 'error');
+            return;
+        }
+        openStudentMatrixModal();
+    });
+
+    document.getElementById('closeStudentMatrixModal').addEventListener('click', function () {
+        document.getElementById('studentMatrixModal').style.display = 'none';
+    });
+
+    document.getElementById('closeStudentMatrixBtn').addEventListener('click', function () {
+        document.getElementById('studentMatrixModal').style.display = 'none';
+    });
 
     searchInput.addEventListener('input', function () {
         renderStudentTable();
@@ -1622,6 +1637,59 @@ function exportToExcel() {
         showNotification('导出数据时出错: ' + error.message, 'error');
         console.error(error);
     }
+}
+function openStudentMatrixModal() {
+    const gridContainer = document.getElementById('studentGridContainer');
+    gridContainer.innerHTML = '';
+
+    const currentClass = getCurrentClass();
+    if (!currentClass) return;
+
+    // 创建50个学生格子，包括空位
+    for (let i = 1; i <= 50; i++) {
+        const student = currentClass.students.find(s => parseInt(s.num) === i);
+        const studentCard = document.createElement('div');
+        studentCard.className = 'student-grid-card-full';
+
+        if (student) {
+            studentCard.innerHTML = `
+                <div class="student-grid-num-full">${student.num}</div>
+                <div class="student-grid-name-full">${student.name}</div>
+                <div class="student-grid-points-full">${student.points}积分</div>
+                <div class="student-grid-coins-full">${student.coins}金币</div>
+            `;
+
+            studentCard.addEventListener('click', function () {
+                openStudentModal(student.id);
+                document.getElementById('studentMatrixModal').style.display = 'none';
+            });
+
+            // 根据积分设置背景色
+            if (student.points >= 20) {
+                studentCard.style.backgroundColor = '#e8f5e9'; // 绿色
+            } else if (student.points >= 10) {
+                studentCard.style.backgroundColor = '#fff3e0'; // 橙色
+            } else if (student.points >= 5) {
+                studentCard.style.backgroundColor = '#f3e5f5'; // 紫色
+            } else {
+                studentCard.style.backgroundColor = '#f5f5f5'; // 灰色
+            }
+        } else {
+            studentCard.innerHTML = `
+                <div class="student-grid-num-full">${i}</div>
+                <div class="student-grid-name-full">空位</div>
+                <div class="student-grid-points-full">-</div>
+                <div class="student-grid-coins-full">-</div>
+            `;
+            studentCard.style.backgroundColor = '#f9f9f9';
+            studentCard.style.color = '#999';
+            studentCard.style.cursor = 'default';
+        }
+
+        gridContainer.appendChild(studentCard);
+    }
+
+    document.getElementById('studentMatrixModal').style.display = 'flex';
 }
 
 

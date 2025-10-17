@@ -87,6 +87,10 @@
             <div class="student-list">
                 <div class="list-header">
                     <h2>学生列表</h2>
+                    <button class="btn" id="studentMatrixBtn">
+                        <i class="fas fa-th"></i>
+                        <span>学生矩阵</span>
+                    </button>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="搜索学生..." id="searchInput">
@@ -222,6 +226,23 @@
             <div class="modal-footer">
                 <button class="btn btn-primary" id="confirmPoints">确认</button>
                 <button class="btn btn-secondary" id="cancelPoints">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- 学生矩阵模态框 -->
+    <div class="modal" id="studentMatrixModal">
+        <div class="modal-content" style="max-width: 95vw; max-height: 95vh; width: 95vw; height: 95vh;">
+            <div class="modal-header">
+                <h2>学生矩阵视图 - 全班学生一览</h2>
+                <button class="close-btn" id="closeStudentMatrixModal">&times;</button>
+            </div>
+            <div class="modal-body" style="height: calc(100% - 120px); overflow: hidden;">
+                <div class="student-grid-container-full" id="studentGridContainer">
+                    <!-- 学生网格将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-accent" id="closeStudentMatrixBtn">关闭</button>
             </div>
         </div>
     </div>
