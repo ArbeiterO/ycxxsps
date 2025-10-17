@@ -896,18 +896,19 @@ function renderStudentTable() {
         const row = document.createElement('tr');
 
         row.innerHTML = `
-                    <td class="checkbox-cell">
-                        <input type="checkbox" class="student-checkbox" data-id="${student.id}">
-                    </td>
-                    <td>${student.num}</td>
-                    <td>${student.name}</td>
-                    <td class="points">${student.points}</td>
-                    <td class="coins">${student.coins}</td>
-                    <td class="action-buttons">
-                        <button class="action-btn add-btn" data-id="${student.id}">+1</button>
-                        <button class="action-btn subtract-btn" data-id="${student.id}">-1</button>
-                    </td>
-                `;
+    <td class="checkbox-cell">
+        <input type="checkbox" class="student-checkbox" data-id="${student.id}">
+    </td>
+    <td>${student.num}</td>
+    <td>${student.name}</td>
+    <td class="level" title="${getRankByPoints(student.points)}">${getRankIcon(student.points)}</td>
+    <td class="points">${student.points}</td>
+    <td class="coins">${student.coins}</td>
+    <td class="action-buttons">
+        <button class="action-btn add-btn" data-id="${student.id}">+1</button>
+        <button class="action-btn subtract-btn" data-id="${student.id}">-1</button>
+    </td>
+`;
 
         row.addEventListener('click', (e) => {
             // 防止点击复选框时也触发编辑
@@ -1690,6 +1691,34 @@ function openStudentMatrixModal() {
     }
 
     document.getElementById('studentMatrixModal').style.display = 'flex';
+}
+// 段位计算函数
+function getRankByPoints(points) {
+    if (points >= 120) return '荣耀王者';
+    else if (points >= 91) return '最强王者';
+    else if (points >= 71) return '至尊星耀';
+    else if (points >= 51) return '永恒钻石';
+    else if (points >= 31) return '尊贵铂金';
+    else if (points >= 21) return '荣耀黄金';
+    else if (points >= 11) return '秩序白银';
+    else return '倔强青铜';
+}
+
+// 获取段位图标HTML
+function getRankIcon(points) {
+    const rank = getRankByPoints(points);
+    const rankIcons = {
+        // '倔强青铜': '<i class="fas fa-shield-alt" style="color: #CD7F32;"></i>',
+        '倔强青铜': '<img src="./images/iconfont/倔强青铜.svg" alt="倔强青铜" height="30px">',
+        '秩序白银': '<img src="./images/iconfont/秩序白银.svg" alt="秩序白银" height="30px">',
+        '荣耀黄金': '<img src="./images/iconfont/荣耀黄金.svg" alt="荣耀黄金" height="30px">',
+        '尊贵铂金': '<img src="./images/iconfont/尊贵铂金.svg" alt="尊贵铂金" height="30px">',
+        '永恒钻石': '<img src="./images/iconfont/永恒钻石.svg" alt="永恒钻石" height="30px">',
+        '至尊星耀': '<img src="./images/iconfont/至尊星耀.svg" alt="至尊星耀" height="30px">',
+        '最强王者': '<img src="./images/iconfont/最强王者.svg" alt="最强王者" height="30px">',
+        '荣耀王者': '<img src="./images/iconfont/荣耀王者.svg" alt="荣耀王者" height="30px">'
+    };
+    return rankIcons[rank] || '<i class="fas fa-question" style="color: #999;"></i>';
 }
 
 
