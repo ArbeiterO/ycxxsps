@@ -901,7 +901,7 @@ function renderStudentTable() {
     </td>
     <td>${student.num}</td>
     <td>${student.name}</td>
-    <td class="level" title="${getRankByPoints(student.points)}">${getRankIcon(student.points)}</td>
+    <td height="53px" class="level" title="${getRankByPoints(student.points)}">${getRankIcon(student.points)}</td>
     <td class="points">${student.points}</td>
     <td class="coins">${student.coins}</td>
     <td class="action-buttons">
@@ -1709,14 +1709,14 @@ function getRankIcon(points) {
     const rank = getRankByPoints(points);
     const rankIcons = {
         // '倔强青铜': '<i class="fas fa-shield-alt" style="color: #CD7F32;"></i>',
-        '倔强青铜': '<img src="./images/iconfont/倔强青铜.svg" alt="倔强青铜" height="30px">',
-        '秩序白银': '<img src="./images/iconfont/秩序白银.svg" alt="秩序白银" height="30px">',
-        '荣耀黄金': '<img src="./images/iconfont/荣耀黄金.svg" alt="荣耀黄金" height="30px">',
-        '尊贵铂金': '<img src="./images/iconfont/尊贵铂金.svg" alt="尊贵铂金" height="30px">',
-        '永恒钻石': '<img src="./images/iconfont/永恒钻石.svg" alt="永恒钻石" height="30px">',
-        '至尊星耀': '<img src="./images/iconfont/至尊星耀.svg" alt="至尊星耀" height="30px">',
-        '最强王者': '<img src="./images/iconfont/最强王者.svg" alt="最强王者" height="30px">',
-        '荣耀王者': '<img src="./images/iconfont/荣耀王者.svg" alt="荣耀王者" height="30px">'
+        '倔强青铜': '<img src="./images/iconfont/倔强青铜.svg" alt="倔强青铜" height="100%">',
+        '秩序白银': '<img src="./images/iconfont/秩序白银.svg" alt="秩序白银" height="100%">',
+        '荣耀黄金': '<img src="./images/iconfont/荣耀黄金.svg" alt="荣耀黄金" height="100%">',
+        '尊贵铂金': '<img src="./images/iconfont/尊贵铂金.svg" alt="尊贵铂金" height="100%">',
+        '永恒钻石': '<img src="./images/iconfont/永恒钻石.svg" alt="永恒钻石" height="100%">',
+        '至尊星耀': '<img src="./images/iconfont/至尊星耀.svg" alt="至尊星耀" height="100%">',
+        '最强王者': '<img src="./images/iconfont/最强王者.svg" alt="最强王者" height="100%">',
+        '荣耀王者': '<img src="./images/iconfont/荣耀王者.svg" alt="荣耀王者" height="100%">'
     };
     return rankIcons[rank] || '<i class="fas fa-question" style="color: #999;"></i>';
 }

@@ -319,7 +319,7 @@ tbody tr:hover {
 
 .action-buttons {
     display: flex;
-    gap: 5px;
+    gap: 6px;
 }
 
 .action-btn {
