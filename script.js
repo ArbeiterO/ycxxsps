@@ -901,10 +901,10 @@ function renderStudentTable() {
     </td>
     <td>${student.num}</td>
     <td>${student.name}</td>
-    <td height="53px" class="level" title="${getRankByPoints(student.points)}">${getRankIcon(student.points)}</td>
+    <td height="56px" class="level" title="${getRankByPoints(student.points)}">${getRankIcon(student.points)}</td>
     <td class="points">${student.points}</td>
     <td class="coins">${student.coins}</td>
-    <td class="action-buttons">
+    <td height="60px" class="action-buttons">
         <button class="action-btn add-btn" data-id="${student.id}">+1</button>
         <button class="action-btn subtract-btn" data-id="${student.id}">-1</button>
     </td>
