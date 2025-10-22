@@ -82,6 +82,18 @@ function createDefaultClass() {
         name: '默认班级',
         students: []
     };
+    // 只有在完全没有数据的情况下才创建50个默认学生
+    if (schoolData.classes.length === 0) {
+        for (let i = 1; i <= 50; i++) {
+            defaultClass.students.push({
+                id: i,
+                num: i.toString(),
+                name: `学生${i}`,
+                points: 0,
+                coins: 0
+            });
+        }
+    }
 
     schoolData.classes.push(defaultClass);
     currentClassId = defaultClass.id;
