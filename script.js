@@ -990,6 +990,7 @@ function renderIndividualRankingList() {
                         <div class="student-name">${student.name}</div>
                         <div class="student-points">积分: ${student.points} | 金币: ${student.coins}</div>
                     </div>
+                    <div class="student-rank">${getRankIcon(student.points)}</div>
                 `;
 
         individualRankingList.appendChild(item);

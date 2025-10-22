@@ -1383,3 +1383,9 @@ tbody tr:hover {
 .level:hover i {
     transform: scale(1.2);
 }
+.student-rank {
+    height: 27px;
+    text-align: center;
+    font-size: 18px;
+    margin-left: 10px;
+}
