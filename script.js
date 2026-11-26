@@ -1735,11 +1735,11 @@ function getRankIcon(points) {
         '至尊星耀': '<img src="./images/iconfont/至尊星耀.svg" alt="至尊星耀" height="100%">',
         '最强王者': '<img src="./images/iconfont/最强王者.svg" alt="最强王者" height="100%">',
         '荣耀王者': '<img src="./images/iconfont/荣耀王者.svg" alt="荣耀王者" height="100%">',
-        '至圣王者': '<img src="./images/iconfont/至圣王者.svg" alt="至圣王者" height="100%">',
-        '无双王者': '<img src="./images/iconfont/无双王者.svg" alt="无双王者" height="100%">',
-        '非凡王者': '<img src="./images/iconfont/非凡王者.svg" alt="非凡王者" height="100%">',
-        '超凡王者': '<img src="./images/iconfont/超凡王者.svg" alt="超凡王者" height="100%">',
-        '传奇王者': '<img src="./images/iconfont/传奇王者.svg" alt="传奇王者" height="100%">'
+        '至圣王者': '<img src="./images/iconfont/1.svg" alt="至圣王者" height="100%">',
+        '无双王者': '<img src="./images/iconfont/2.svg" alt="无双王者" height="100%">',
+        '非凡王者': '<img src="./images/iconfont/3.svg" alt="非凡王者" height="100%">',
+        '超凡王者': '<img src="./images/iconfont/4.svg" alt="超凡王者" height="140%">',
+        '传奇王者': '<img src="./images/iconfont/5.svg" alt="传奇王者" height="100%">'
     };
     return rankIcons[rank] || '<i class="fas fa-question" style="color: #999;"></i>';
 }
