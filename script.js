@@ -1707,7 +1707,12 @@ function openStudentMatrixModal() {
 }
 // 段位计算函数
 function getRankByPoints(points) {
-    if (points >= 120) return '荣耀王者';
+    if (points >= 241) return '传奇王者';
+    else if (points >= 211) return '超凡王者';
+    else if (points >= 191) return '非凡王者';
+    else if (points >= 171) return '无双王者';
+    else if (points >= 141) return '至圣王者';
+    else if (points >= 121) return '荣耀王者';
     else if (points >= 91) return '最强王者';
     else if (points >= 71) return '至尊星耀';
     else if (points >= 51) return '永恒钻石';
